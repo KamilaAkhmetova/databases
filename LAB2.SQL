@@ -46,3 +46,27 @@ CREATE TABLE countries_new( LIKE countries);
 INSERT INTO countries_new
 SELECT *
 FROM countries;
+
+--12
+UPDATE countries_new
+SET region_id = 1 WHERE region_id IS NULL;
+
+--13
+UPDATE countries_new
+SET population = 0.1 * population + population
+RETURNING country_name, population AS "New Population";
+
+--14
+DELETE FROM countries
+WHERE population < 100000;
+
+--15
+DELETE FROM countries_new
+USING countries
+WHERE countries.country_id = countries_new.country_id
+RETURNING countries_new.*;
+
+--16
+DELETE FROM countries
+RETURNING countries.*;
+
