@@ -79,3 +79,61 @@ WHERE department = 37 OR department = 77;
 SELECT SUM(budget) FROM departments;
 
 --10
+SELECT d.code, COUNT(e.ssn) AS employee_count
+FROM employees e
+JOIN departments d ON e.department = d.code
+GROUP BY d.code;
+
+--11
+SELECT d.code
+FROM departments d
+JOIN employees e ON d.code = e.department
+GROUP BY d.code
+HAVING COUNT(e.ssn) > 2;
+
+--12
+SELECT name
+FROM departments
+WHERE budget = (
+    SELECT MAX(budget)
+    FROM departments
+    WHERE budget < (SELECT MAX(budget) FROM departments)
+);
+
+--13
+SELECT e.name, e.lastname
+FROM employees e
+JOIN departments d ON e.department = d.code
+WHERE d.budget = (
+    SELECT MIN(budget) FROM departments
+);
+
+--14
+SELECT name FROM employees
+WHERE city = 'Almaty'
+UNION
+SELECT name FROM customers
+WHERE city = 'Almaty';
+
+--15
+SELECT name
+FROM departments
+WHERE budget > 60000
+ORDER BY budget ASC, code DESC;
+
+--16
+UPDATE departments
+SET budget = 0.9 * budget
+WHERE budget = (SELECT MIN(budget) FROM departments);
+
+--17
+UPDATE employees
+SET department = (SELECT code FROM departments WHERE name = 'IT')
+WHERE department = (SELECT code FROM departments WHERE name = 'Research');
+
+--18
+DELETE FROM employees
+WHERE department = (SELECT code FROM departments WHERE name = 'IT');
+
+--19
+DROP TABLE employees;
