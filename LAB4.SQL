@@ -43,3 +43,46 @@ SELECT * FROM Boxes
 WHERE value > 150;
 
 --6
+SELECT DISTINCT ON (contents) *
+FROM Boxes;
+
+--7
+SELECT warehouse, COUNT(1)
+FROM Boxes
+GROUP BY warehouse;
+
+--8
+SELECT warehouse, COUNT(1) AS num_of_boxes
+FROM Boxes
+GROUP BY warehouse
+HAVING COUNT(1) > 2;
+
+--9
+INSERT INTO Warehouses (code, location, capacity)
+VALUES ((SELECT COALESCE(MAX(code), 0) + 1 FROM Warehouses), 'New York', 3);
+
+--10
+INSERT INTO boxes(code, contents, value, warehouse)
+VALUES ('H5RT', 'Paper', 200, 2);
+
+--11
+UPDATE Boxes
+SET value = value * 0.85
+WHERE value = (
+    SELECT MAX(value)
+    FROM Boxes
+    WHERE value < (
+        SELECT MAX(value)
+        FROM Boxes
+        WHERE value < (SELECT MAX(value) FROM Boxes)
+    )
+);
+
+--12
+DELETE FROM Boxes
+WHERE value < 150;
+
+--13
+DELETE FROM Boxes
+WHERE warehouse IN (SELECT code FROM Warehouses WHERE location = 'New York')
+RETURNING *;
