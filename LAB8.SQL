@@ -39,14 +39,14 @@ CREATE VIEW cust_salesman_names AS
     FROM customers c 
     JOIN salesman s ON c.salesman_id = s.salesman_id;
 
-GRANT ALL PRIVILEGES ON VIEW cust_salesman_names TO junior_dev;
+GRANT ALL ON cust_salesman_names TO junior_dev;
 
 -- 6
 CREATE VIEW highest_grade AS 
     SELECT * FROM customers 
     WHERE grade = (SELECT MAX(grade) FROM customers);
 
-GRANT SELECT ON VIEW highest_grade TO junior_dev;
+GRANT SELECT ON highest_grade TO junior_dev;
 
 -- 7
 CREATE VIEW num_of_salesmen AS 
