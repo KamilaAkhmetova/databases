@@ -108,24 +108,18 @@ DECLARE
     annual_salary INT;
     kbtu_email VARCHAR;
 BEGIN
-    -- Main block: Encloses the entire logic
     BEGIN
-        -- First subblock: Numeric computation
         BEGIN
-            -- Calculate the annual salary
             annual_salary := salary * 12;
         END;
 
-        -- Second subblock: String manipulation
         BEGIN
-            -- Retrieve email that matches the given domain filter
             SELECT email
             INTO kbtu_email
             FROM employees
             WHERE email LIKE '%' || domain_filter;
         END;
 
-        -- Combine results from subblocks and return
         RETURN 'Annual Salary: ' || annual_salary ||
                ', Email: ' || COALESCE(kbtu_email, 'Not found');
     END;
