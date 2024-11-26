@@ -64,7 +64,7 @@ CREATE TABLE products(
     category VARCHAR
     );
 
-CREATE FUNCTION list_products(category_name int)
+CREATE FUNCTION list_products(category_name VARCHAR)
 RETURNS TABLE(id INT,name VARCHAR, category VARCHAR)
 AS $$
     BEGIN
