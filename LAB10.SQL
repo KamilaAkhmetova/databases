@@ -76,11 +76,22 @@ END;
 $$ LANGUAGE plpgsql;
 
 --3
-begin transaction isolation level read committed;
+begin;
+set transaction isolation level read committed;
 update books
 set price = price + 10
 where book_id = 1;
-commit;
-begin transaction isolation level read committed;
+begin;
+set transaction isolation level read committed;
 select books.price from books
 where book_id = 1;
+commit;
+select * from books;
+
+--4
+begin;
+update customers
+set email = 'email@kbtu.com'
+where customer_id = 102;
+commit;
+select * from customers;
